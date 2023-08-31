@@ -21,7 +21,9 @@ fulfilled: When the action successfully completes.
 rejected: When the action encounters an error.
 Each case's corresponding reducer updates the state accordingly. For instance, createUser.pending sets loading to true and clears any previous error state. createUser.fulfilled updates the user's email and sets loading to false if successful. createUser.rejected updates error state and sets loading to false in case of an error.
 
-Remember that in the provided code snippet, createUser and loginUser actions are referenced but not defined. These actions should be created elsewhere using Redux Toolkit's createAsyncThunk function to handle asynchronous operations like API calls.
+ createUser and loginUser actions are referenced but not defined. 
+ These actions should be created elsewhere using Redux Toolkit's createAsyncThunk function to handle asynchronous operations like API calls.
+ 
 
 
 
