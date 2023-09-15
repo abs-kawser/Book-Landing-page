@@ -1,20 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useState } from "react";
-import {  useNavigate, useParams } from "react-router-dom";
+import {  useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   useGetSingleBookQuery,
   useUpdateBookMutation,
 } from "../redux/features/book/bookSlice";
 
 const UpdateBook = () => {
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
-  
   const { id } = useParams();
   console.log(id);
 
   //const { user } = useAppSelector((state: { user: any }) => state.user);
-  
+
   const [formData, setFormData] = useState({
     title: "",
     author: "",
@@ -23,15 +22,13 @@ const UpdateBook = () => {
     description: "",
   });
 
-
-  const { data: currentdata} = useGetSingleBookQuery(id);
- console.log(currentdata);
- 
- console.log(currentdata?.data.title);
- 
+  //Hold previous data
+  const { data: currentdata } = useGetSingleBookQuery(id);
+  console.log(currentdata);
+  console.log(currentdata?.data.title);
 
   useEffect(() => {
-    if (currentdata && currentdata) {
+    if (currentdata ) {
       const { title, author, genre, price, description } = currentdata.data;
       setFormData((prevFormData) => ({
         ...prevFormData,
@@ -41,11 +38,9 @@ const UpdateBook = () => {
         price,
         description,
       }));
-
-   
     }
   }, [currentdata]);
-  
+
 
   const [data, { isLoading, isError, isSuccess }] = useUpdateBookMutation();
   console.log(isError, isSuccess);
@@ -53,7 +48,7 @@ const UpdateBook = () => {
 
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-  
+
     data({ formData, id });
     console.log({ id, formData });
 
@@ -66,8 +61,7 @@ const UpdateBook = () => {
       description: "",
     });
 
-    navigate("/home")
-     
+    navigate("/home");
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
