@@ -59,12 +59,7 @@ const Login = () => {
     }
   }, [user.email, isLoading,navigate]);
 
-  // useEffect(() => {
-  //   if (user.email && !isLoading) {
-  //     navigate(from);
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [user.email, isLoading]);
+
 
   return (
     <div>

@@ -2,13 +2,16 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 // Define a service using a base URL and expected endpoints
- 
-//https://book-server-y9ds.onrender.com/
-//https://book-server-main.vercel.app/
+
+
 export const bookSlice = createApi({
   reducerPath: "api",
-  baseQuery: fetchBaseQuery({ baseUrl: "https://book-server-main.vercel.app/api/v1"}),
+
+  baseQuery: fetchBaseQuery({ baseUrl: "https://book-server-main.vercel.app/api/v1" }),
+  refetchOnMountOrArgChange: true,
   tagTypes: ["books", "post", "update", "delete"],
+
+
   endpoints: (builder) => ({
     getAllBooks: builder.query({
       query: (serchValue: string) =>

@@ -1,12 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+
 import {
   useGetSingleBookQuery,
   useUpdateBookMutation,
 } from "../redux/features/book/bookSlice";
 
 const UpdateBook = () => {
+
+
   const navigate = useNavigate();
 
   const { id } = useParams();
@@ -28,7 +31,7 @@ const UpdateBook = () => {
   console.log(currentdata?.data.title);
 
   useEffect(() => {
-    if (currentdata ) {
+    if (currentdata) {
       const { title, author, genre, price, description } = currentdata.data;
       setFormData((prevFormData) => ({
         ...prevFormData,
@@ -46,22 +49,30 @@ const UpdateBook = () => {
   console.log(isError, isSuccess);
   console.log(data);
 
-  const handleSubmit = (e: { preventDefault: () => void }) => {
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
-    data({ formData, id });
-    console.log({ id, formData });
+    try {
+      await data({ formData, id }).unwrap();
+      console.log({ id, formData });
 
-    // Reset the form fields after submission
-    setFormData({
-      title: "",
-      author: "",
-      genre: "",
-      price: "",
-      description: "",
-    });
 
-    navigate("/home");
+      //Reset the form fields after submission
+      setFormData({
+        title: "",
+        author: "",
+        genre: "",
+        price: "",
+        description: "",
+      });
+      navigate("/home");
+      alert(`Updated data`)
+    } catch (error) {
+      console.error("Update failed:", error);
+
+    }
+
+
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -73,11 +84,10 @@ const UpdateBook = () => {
     }));
   };
 
+
+  
   return (
     <div className="container">
-      {/* <div className="flex">
-        <h1>{user.email}</h1>
-      </div> */}
       <form className="max-w-md mx-auto p-4 bg-white shadow-lg rounded-lg">
         <div className="mb-4">
           <label htmlFor="title" className="block font-semibold mb-1">
@@ -150,6 +160,7 @@ const UpdateBook = () => {
           className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded"
         >
           {isLoading ? "Loading..." : "Update  book"}
+          
         </button>
       </form>
     </div>

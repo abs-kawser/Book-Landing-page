@@ -9,14 +9,13 @@ import Card from "../components/Card";
 import { IBookInterface } from "../types/dataTypes";
 
 const Home = () => {
+
+
+
   const { search } = useAppSelector(
     (state: { searchItem: any }) => state?.searchItem
   );
-
-  const { data, isLoading, isError } = useGetAllBooksQuery(search, {
-    refetchOnMountOrArgChange: true,
-  });
-
+  const { data, isLoading, isError } = useGetAllBooksQuery(search);
   console.log(data);
 
   const [filterItems, setFilterItems] = useState([]);
@@ -62,18 +61,21 @@ const Home = () => {
 
           {filterItems.length > 0 ? (
             filterItems?.map((book: any) => (
-              <Link key={book._id} to={`/details/${book._id}`}>
+              <Link key={book._id} to={`/details/${book._id}`} >
                 <div className="rounded-lg p-4 m-2">
                   <div className="card w-96 bg-neutral text-neutral-content">
                     <div className="card-body items-center text-center">
                       <h2 className="card-title">{book.title}</h2>
 
-                      <h1>{book.price}</h1>
+                      <h1>PRICE{book.price}</h1>
 
-                      <h4>{book.genre}</h4>
+                      <h4>Genre{book.genre}</h4>
 
-                      <h4> {book.author}</h4>
+                      <h4>Author{book.author}</h4>
                     </div>
+                    <button className="btn btn-primary"
+                    >Got to Details</button>
+
                   </div>
                 </div>
               </Link>

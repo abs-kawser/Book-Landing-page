@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useAppSelector } from "../redux/hooks";
 import { useCreateBookMutation } from "../redux/features/book/bookSlice";
 import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 //import { Toaster, toast } from "react-hot-toast";
 // import { Toaster, toast } from "react-hot-toast";
 
@@ -20,7 +21,7 @@ const CreateBook = () => {
   });
 
   const [data, { isLoading, isError, isSuccess }] = useCreateBookMutation();
-  console.log(isError, isSuccess,isLoading);
+  console.log(isError, isSuccess, isLoading);
 
   // if (isSuccess) {
   //   console.log(`hello`);
@@ -41,22 +42,39 @@ const CreateBook = () => {
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
-    data(formData);
-    console.log(formData);
-    // Reset the form fields after submission
-    setFormData({
-      title: "",
-      author: "",
-      email: `${user.email ? user.email : ""}`,
-      genre: "",
-      price: "",
-      description: "",
-    });
+    if (!formData.title || !formData.author || !formData.genre || !formData.price || !formData.description) {
+      toast.error("Please fill out all required fields");
+    } else {
+      try {
+        data(formData);
+        console.log(formData);
+        // Reset the form fields after submission
+        setFormData({
+          title: "",
+          author: "",
+          email: `${user.email ? user.email : ""}`,
+          genre: "",
+          price: "",
+          description: "",
+        });
+        alert(`Success`)
+        toast.success("Successes fully submit ")
+
+      } catch (error) {
+        toast.error("Successes fully submit ")
+
+      }
+
+    }
+
   };
 
   if (isSuccess) {
     navigate("/home");
   }
+
+
+
 
   return (
     <>
@@ -146,7 +164,7 @@ const CreateBook = () => {
           {isLoading ? "Loading..." : "Create Book"}
         </button>
       </form>
-      {/* <Toaster /> */}
+      <Toaster />
     </>
   );
 };
